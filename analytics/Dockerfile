@@ -8,7 +8,7 @@ WORKDIR /app
 COPY  . /app
 
 # Python dependencies
-RUN pip install -r /requirements.txt
+RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
 # Expose port 5153
 EXPOSE 5153
