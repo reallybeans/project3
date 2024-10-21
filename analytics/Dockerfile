@@ -1,5 +1,5 @@
 #Python image
-FROM python:3.10
+FROM public.ecr.aws/docker/library/python:latest
 
 # Working directory
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 COPY  . /app
 
 # Python dependencies
-RUN pip install --trusted-host pypi.python.org -r requirements.txt
+RUN pip install -r /requirements.txt
 
 # Expose port 5153
 EXPOSE 5153

@@ -30,7 +30,7 @@ spec:
     spec:
       containers:
       - name: coworking
-        image: 361250016004.dkr.ecr.us-east-1.amazonaws.com/test-coworking-analytics:0.0.1
+        image: 361250016004.dkr.ecr.us-east-1.amazonaws.com/test-coworking-analytics:1
         imagePullPolicy: Always
         ports:
           - containerPort: 5153
@@ -45,31 +45,17 @@ spec:
             path: "/readiness_check"
             port: 5153
           initialDelaySeconds: 5
-          timeoutSeconds: 5 
-        env:
-        - name: DB_NAME
-          valueFrom:
-            configMapKeyRef:
-              name: environment-config
-              key: DB_NAME
-        - name: DB_USER
-          valueFrom:
-            configMapKeyRef:
-              name: environment-config
-              key: DB_USER
-        - name: DB_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: environment-config
-              key: DB_HOST
-        - name: DB_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: environment-config
-              key: DB_PORT
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: environment-secret
-              key: postgres-password
+          timeoutSeconds: 5
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "1000Mi"
+          limits:
+            cpu: "500m"
+            memory: "2000Mi"
+        envFrom:
+        - secretRef:
+            name: environment-secret
+        - configMapRef:
+            name: environment-config
       restartPolicy: Always
