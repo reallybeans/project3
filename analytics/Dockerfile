@@ -1,5 +1,5 @@
 #Python image
-FROM python:3.10
+FROM python:3.10-slim-buster
 
 # Working directory
 WORKDIR /app
