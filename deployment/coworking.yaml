@@ -47,9 +47,27 @@ spec:
         envFrom:
         - configMapRef:
             name: environment-config
+        env:
+        - name: DB_USERNAME
+          value: "myuser"
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
               name: environment-secret
               key: postgres-password
-      restartPolicy: Always
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: environment-config
+              key: DB_HOST
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: environment-config
+              key: DB_PORT
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: environment-config
+              key: DB_NAME
+      restartPolicy: Always  
