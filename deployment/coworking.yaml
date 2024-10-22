@@ -44,34 +44,9 @@ spec:
             port: 5153
           initialDelaySeconds: 5
           timeoutSeconds: 5
-        resources:
-          requests:
-            memory: "512Mi"
-            cpu: "500m"
-          limits:
-            memory: "1Gi"
-            cpu: "1"
-        env:
-        - name: DB_USERNAME
-          valueFrom:
-            configMapKeyRef:
-              name: environment-config
-              key: DB_USER
-        - name: DB_HOST
-          valueFrom:
-            configMapKeyRef:
-              name: environment-config
-              key: DB_HOST
-        - name: DB_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: environment-config
-              key: DB_PORT
-        - name: DB_NAME
-          valueFrom:
-            configMapKeyRef:
-              name: environment-config
-              key: DB_NAME
+        envFrom:
+        - configMapRef:
+            name: environment-config
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
