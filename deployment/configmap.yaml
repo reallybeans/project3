@@ -5,5 +5,5 @@ metadata:
 data:
   DB_NAME: "mydatabase"
   DB_USER: "myuser"
-  DB_HOST: "postgresql-service"
+  DB_HOST: "192.168.34.236"
   DB_PORT: "5432"
