@@ -3,9 +3,8 @@ kind: Service
 metadata:
   name: coworking
 spec:
-  type: LoadBalancer
   selector:
-    service: coworking
+    app.kubernetes.io/name: coworking
   ports:
   - name: "5153"
     protocol: TCP
@@ -30,10 +29,8 @@ spec:
     spec:
       containers:
       - name: coworking
-        image: 361250016004.dkr.ecr.us-east-1.amazonaws.com/test-coworking-analytics:1
+        image: 361250016004.dkr.ecr.us-east-1.amazonaws.com/coworking-analytics:1
         imagePullPolicy: Always
-        ports:
-          - containerPort: 5153
         livenessProbe:
           httpGet:
             path: /health_check
@@ -53,9 +50,30 @@ spec:
           limits:
             cpu: "500m"
             memory: "2000Mi"
-        envFrom:
-        - secretRef:
-            name: environment-secret
-        - configMapRef:
-            name: environment-config
-      restartPolicy: Always
+        env:
+        - name: DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: environment-config
+              key: DB_USER
+        - name: DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: environment-config
+              key: DB_HOST
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: environment-config
+              key: DB_PORT
+        - name: DB_NAME
+          valueFrom:
+            configMapKeyRef:
+              name: environment-config
+              key: DB_NAME
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: environment-secret
+              key: postgres-password
+      restartPolicy: Alwayss

@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: environment-config
 data:
-  DB_NAME: "postgres"
-  DB_USER: "postgres"
+  DB_NAME: "mydatabase"
+  DB_USER: "myuser"
   DB_HOST: "postgresql-service"
   DB_PORT: "5432"
