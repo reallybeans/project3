@@ -1,5 +1,5 @@
 #Python image
-FROM python:3.9-slim-buster
+FROM python:3.10
 
 # Working directory
 WORKDIR /app
@@ -10,8 +10,8 @@ COPY  . /app
 # Python dependencies
 RUN pip install --trusted-host pypi.python.org -r requirements.txt
 
-# Expose port 80
-EXPOSE 80
+# Expose port 5153
+EXPOSE 5153
 
 # Command to run the application
 CMD ["python", "app.py"]
