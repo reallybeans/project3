@@ -44,12 +44,12 @@ spec:
             port: 5153
           initialDelaySeconds: 5
           timeoutSeconds: 5
-        envFrom:
-        - configMapRef:
-            name: environment-config
         env:
         - name: DB_USERNAME
-          value: "myuser"
+          valueFrom:
+            configMapKeyRef:
+              name: environment-config
+              key: DB_USERNAME
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
