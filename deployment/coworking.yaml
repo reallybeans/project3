@@ -1,16 +1,17 @@
 apiVersion: v1
 kind: Service
 metadata:
+  labels:
+    service: coworking
   name: coworking
 spec:
-  type: LoadBalancer
+  type: ClusterIP
+  ports:
+    - protocol: "TCP"
+      port: 5153
+      targetPort: 5153
   selector:
     service: coworking
-  ports:
-  - name: "5153"
-    protocol: TCP
-    port: 5153
-    targetPort: 5153
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -44,30 +45,16 @@ spec:
             port: 5153
           initialDelaySeconds: 5
           timeoutSeconds: 5
-        env:
-        - name: DB_USERNAME
-          valueFrom:
-            configMapKeyRef:
-              name: environment-config
-              key: DB_USERNAME
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
+        resources:
+            requests:
+              memory: "1000Mi"
+              cpu: "250m"
+            limits:
+              memory: "2000Mi"
+              cpu: "500m"
+        envFrom:
+          - secretRef:
               name: environment-secret
-              key: postgres-password
-        - name: DB_HOST
-          valueFrom:
-            configMapKeyRef:
+          - configMapRef:
               name: environment-config
-              key: DB_HOST
-        - name: DB_PORT
-          valueFrom:
-            configMapKeyRef:
-              name: environment-config
-              key: DB_PORT
-        - name: DB_NAME
-          valueFrom:
-            configMapKeyRef:
-              name: environment-config
-              key: DB_NAME
       restartPolicy: Always  
